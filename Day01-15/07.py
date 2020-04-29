@@ -1,6 +1,7 @@
 import os
 import time
 import random
+from random import randint, sample
 
 
 def practice1():
@@ -59,9 +60,111 @@ def max2(x):
     return m1, m2
 
 
+def practice5():
+    """ 计算指定的年月日是这一年的第几天 """
+    def is_leap_year(year):
+        """ 判断指定的年份是不是闰年
+        :param: year:年份
+        :return: 闰年返回True平年返回False
+         """
+        return year % 4 == 0 and year % 100 != 0 or year % 400 == 0
+
+    def which_day(year, month, date):
+        """
+        计算传入的日期是这一年的第几天
+        :param: year:年
+        :param: month:月
+        :param: date:日
+        :return: 第几天
+        """
+        days_of_month = [[31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+                         [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30,
+                          31]][is_leap_year(year)]
+        total = 0
+        for index in range(month - 1):
+            total += days_of_month[index]
+        return total + date
+
+    def main():
+        print(which_day(1980, 11, 28))
+        print(which_day(1981, 2, 18))
+        print(which_day(2018, 1, 8))
+        print(which_day(2020, 4, 29))
+
+    main()
+
+
+def practice6():
+    """ 打印杨辉三角 """
+    def main():
+        num = int(input('Number of rows: '))
+        yh = [[]] * num
+        for row in range(len(yh)):
+            yh[row] = [None] * (row + 1)
+            for col in range(len(yh[row])):
+                if col == 0 or col == row:
+                    yh[row][col] = 1
+                else:
+                    yh[row][col] = yh[row - 1][col] + yh[row - 1][col - 1]
+                print(yh[row][col], end='\t')
+            print()
+
+    main()
+
+
+def case1():
+    def display(balls):
+        """
+        输出列表中的双色球号码
+        """
+        for index, ball in enumerate(balls):
+            if index == len(balls) - 1:
+                print('|', end=' ')
+            print('%02d' % ball, end=' ')
+        print()
+
+    def random_select():
+        """ 随机选择一组号码 """
+        red_balls = [x for x in range(1, 34)]
+        selected_balls = []
+        selected_balls = sample(red_balls, 6)
+        selected_balls.sort()
+        selected_balls.append(randint(1, 16))
+        return selected_balls
+
+    def main():
+        n = int(input('机选几注: '))
+        for _ in range(n):
+            display(random_select())
+
+    main()
+
+
+def case2():
+    """ 约瑟夫环问题 """
+    def main():
+        persons = [True] * 30
+        counter, index, number = 0, 0, 0
+        while counter < 15:
+            if persons[index]:
+                number += 1
+                if number == 9:
+                    persons[index] = False
+                    counter += 1
+                    number = 0
+            index += 1
+            index %= 30
+        for person in persons:
+            print('基' if person else '非', end='')
+
+    main()
 
 
 if __name__ == "__main__":
     # practice1()
     # generate_code()
     # print(get_suffix('test111.txt', False))
+    # practice5()
+    # practice6()
+    # case1()
+    # case2()
