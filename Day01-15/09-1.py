@@ -1,7 +1,6 @@
 from math import sqrt
 from time import time, localtime, sleep
-from abc import ABCMeta, abstractmethod
-from random import randint, randrange
+
 
 class Person1(object):
     """ @property装饰器 """
